@@ -1,6 +1,6 @@
 {
   "name": "jkl",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "utils for jekyll stuff",
   "preferGlobal": true,
   "bin": {
