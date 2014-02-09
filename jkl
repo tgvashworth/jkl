@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+var mkdirp = require('mkdirp');
+var moment = require('moment');
+
+var jkl = {};
+
+/**
+ * utils
+ */
+
+jkl._hasPosts = function (dir) {
+    return fs.existsSync(
+        path.resolve(dir, '_posts')
+    );
+};
+
+jkl._getPath = function (title, dir, hasPosts)  {
+    // Figure out where to put the file
+    var segments = title.split('/');
+    title = segments.slice(-1).join('');
+    if (segments.length > 1) {
+        dir = path.resolve(dir || '.', segments.slice(0, -1).join('/'));
+    }
+    // Default to _posts
+    if (!dir && hasPosts) {
+        dir = path.resolve(process.env.PWD, '_posts');
+    }
+    // Make a file name
+    var filename = [
+        moment().format('YYYY-MM-DD'), title + '.md'
+    ].join('-').replace(/\-{2,}/, '-').replace(/(?:\.md){2,}/, '.md');
+    var filepath = path.resolve(dir || '.', filename);
+    return filepath;
+};
+
+jkl._relative = function (somepath) {
+    return somepath.replace(process.env.PWD, '.');
+};
+
+/**
+ * commands
+ */
+
+jkl.new = function (title, dir) {
+    var filepath = jkl._getPath(title, dir, jkl._hasPosts(process.env.PWD));
+    mkdirp.sync(path.dirname(filepath));
+    fs.openSync(filepath, 'a');
+    console.log('created :', jkl._relative(filepath));
+};
+
+jkl.rm = function (title, dir) {
+    var filepath = jkl._getPath(title, dir, jkl._hasPosts(process.env.PWD));
+    if (!fs.existsSync(filepath)) return process.exit(2);
+    fs.unlinkSync(filepath);
+    console.log('deleted :', jkl._relative(filepath));
+};
+
+jkl.draft = function (title, dir) {
+    jkl.new(title, dir || '_drafts');
+};
+
+var fn = jkl[process.argv[2]];
+if (!fn) return process.exit(1);
+fn.apply(jkl, process.argv.slice(3));

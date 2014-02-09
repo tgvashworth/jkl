@@ -1,0 +1,20 @@
+{
+  "name": "jkl",
+  "version": "0.0.0",
+  "description": "utils for jekyll stuff",
+  "preferGlobal": true,
+  "bin": {
+    "jkl": "jkl"
+  },
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Tom Ashworth <ta@twitter.com>",
+  "license": "MIT",
+  "dependencies": {
+    "moment": "~2.5.1",
+    "mkdirp": "~0.3.5"
+  }
+}
