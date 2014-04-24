@@ -62,6 +62,35 @@ jkl.draft = function (title, dir) {
     jkl.new(title, dir || '_drafts');
 };
 
+jkl.help = jkl['-h'] = jkl['--help'] = function () {
+    console.log('\n  '+[
+        'Usage: jkl <cmd> <options>',
+        '',
+        'Commands:',
+        '',
+        '  new <title> <dir>     Create a new post with the given title and, optionally,',
+        '                        in a target directory. <dir> defaults to _posts.',
+        '  rm <title> <dir>      Remove post with given title and, optionally,',
+        '                        in a target directory. <dir> defaults to _posts.',
+        '  draft <title> <dir>   Same as new, except <dir> defaults to _drafts.',
+        '  help, -h, --help      You\'re reading it.',
+        '',
+        'Examples:',
+        '',
+        '  $ jkl new i-love-jkl',
+        '  created : ./_posts/2014-02-09-i-love-jkl.md',
+        '',
+        '  $ jkl rm i-love-jkl',
+        '  deleted : ./_posts/2014-02-09-i-love-jkl.md',
+        '',
+        '  $ jkl draft i-love-jkl',
+        '  created : ./_drafts/2014-02-09-i-love-jkl.md',
+        '',
+        '  $ jkl rm i-love-jkl _drafts',
+        '  deleted : ./_drafts/2014-02-09-i-love-jkl.md'
+    ].join('\n  '))
+};
+
 var fn = jkl[process.argv[2]];
-if (!fn) return process.exit(1);
+if (!fn) fn = jkl.help;
 fn.apply(jkl, process.argv.slice(3));
