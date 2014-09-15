@@ -29,18 +29,18 @@ created : ./_drafts/2014-02-09-i-love-jkl.md
 
 ### `rm`
 
-Delete a new post.
+Delete a post.
 
 ```
 $ jkl rm i-love-jkl
 deleted : ./2014-02-09-i-love-jkl.md
 ```
 
-This has the same behaviour as `new`.
+This has the same behaviour as `new`, in that the default for a Jekyll project will be `_posts`. You can specify a directory.
 
 ### `draft`
 
-Like `new`, but defaults to `_drafts`.
+Like `new`, but defaults to the `_drafts` folder.
 
 ## license
 
